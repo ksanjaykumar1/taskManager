@@ -2,7 +2,7 @@ const Logger = require('../logger/logger');
 const logger = Logger.getLogger('./controller/tasks');
 const Tasks = require('../models/Task');
 const asyncWrapper = require('../utils/middleware/async');
-
+const { createCustomError } = require('../utils/errorHandling/custom-error');
 exports.getAllTaks = asyncWrapper(async (req, res, next) => {
     logger.debug(`Inside getAllTaks`);
     const tasks = await Tasks.find({});
@@ -23,9 +23,9 @@ exports.getTask = asyncWrapper(async (req, res, next) => {
     const task = await Tasks.findOne({ _id: taskID });
     logger.debug(` Retrived task is ${task}`);
     if (!task) {
-        const error = new Error('Task Not found');
-        error.status = 404;
-        return next(error);
+        return next(
+            createCustomError(`Task doesn't exit with that id:${taskID}`, 404)
+        );
         // return res.status(404).json({
         //     msg: `Task doesn't exit with that id:${taskID}`,
         // });
@@ -42,9 +42,9 @@ exports.updateTask = asyncWrapper(async (req, res, next) => {
         runValidators: true,
     });
     if (!task) {
-        return res
-            .status(404)
-            .json({ msg: `Task doesn't exist with Id ${taskID}` });
+        return next(
+            createCustomError(`Task doesn't exit with that id:${taskID}`, 404)
+        );
     }
     res.status(200).json({ taskID, task });
 });
@@ -55,9 +55,9 @@ exports.deleteTask = async (req, res, next) => {
 
     const task = await Tasks.findOneAndDelete({ _id: taskID });
     if (!task) {
-        return res
-            .status(404)
-            .json({ msg: `Task with doesn't exist with ID: ${taskID}` });
+        return next(
+            createCustomError(`Task doesn't exit with that id:${taskID}`, 404)
+        );
     }
     return res.status(200).json({ task });
 };
