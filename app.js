@@ -37,12 +37,12 @@ switch (process.env.ENVIRONMENT) {
         );
     }
 }
+//adding vanilla javascript frontend
+app.use(express.static('./public'))
 
 app.use(express.json({ extended: false }));
 app.use('/api/v1/tasks', tasks);
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
+
 
 const start = async () => {
     try {
