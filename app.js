@@ -6,7 +6,7 @@ const tasks = require('./routes/tasks');
 const Logger = require('./logger/logger');
 const db = require('./utils/db');
 const logger = Logger.getLogger('./app.js');
-
+const notFound = require('./utils/middleware/not-found')
 switch (process.env.ENVIRONMENT) {
     case 'development': {
         logger.info(`Development Morgan`);
@@ -43,6 +43,8 @@ app.use(express.static('./public'))
 app.use(express.json({ extended: false }));
 app.use('/api/v1/tasks', tasks);
 
+//404 route not found handler
+app.use(notFound.notFound)
 
 const start = async () => {
     try {
