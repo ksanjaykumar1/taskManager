@@ -12,10 +12,14 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "app-root-path": "^3.0.0",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
+        "fast-safe-stringify": "^2.1.1",
         "mongoose": "^6.3.4",
-        "prettier": "^2.6.2"
+        "prettier": "^2.6.2",
+        "splat": "^1.0.0",
+        "winston": "^3.7.2"
     },
     "devDependencies": {
         "eslint": "^8.16.0",
