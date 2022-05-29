@@ -44,7 +44,7 @@ app.use(express.json({ extended: false }));
 app.use('/api/v1/tasks', tasks);
 
 //404 route not found handler
-app.use(notFound.notFound)
+app.use(notFound)
 
 const start = async () => {
     try {
