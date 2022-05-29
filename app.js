@@ -7,6 +7,7 @@ const Logger = require('./logger/logger');
 const db = require('./utils/db');
 const logger = Logger.getLogger('./app.js');
 const notFound = require('./utils/middleware/not-found')
+const errorHandlerMiddleware = require('./utils/middleware/error-handler')
 switch (process.env.ENVIRONMENT) {
     case 'development': {
         logger.info(`Development Morgan`);
@@ -45,6 +46,7 @@ app.use('/api/v1/tasks', tasks);
 
 //404 route not found handler
 app.use(notFound)
+app.use(errorHandlerMiddleware)
 
 const start = async () => {
     try {
